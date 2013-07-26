@@ -4,14 +4,16 @@
 # Tests for the fitting module
 import unittest
 
-import fitting
+from fitting import (
+	Fitting
+)
 
 class TestFitting(unittest.TestCase):
 	""" Tests the fitting class """
 
 	def test_initialization(self):
 		""" Tests that the initialization works properly. """
-		fitting = Fitting()
+		fitting = Fitting(0,0)
 
 		self.assertEquals(fitting.id, 0)
 		self.assertEquals(fitting.dropsuit_base_id, 0)
