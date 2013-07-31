@@ -28,7 +28,6 @@ class TestItemDatabase(unittest.TestCase):
 		""" Tests that the initialization works properly. 
 			- Add a way to verify the correct data type for the columns.
 		"""
-
 		# Test that all the dropsuit columns exist
 		expected_dropsuits = ['id', 'name', 'race', 'meta_level', 
 				'price_isk', 'price_aur']
@@ -61,9 +60,9 @@ class TestItemDatabase(unittest.TestCase):
 		weapon_db_data = {'id': 0, 'name': 'Ban Hammer', 'meta_level': 42,
 				 'price_isk': 36, 'price_aur': 6, 'base_damage': 9999}
 
-		self.itemdb.add(itemdb.DB_DROPSUIT, dropsuit_db_data)
-		self.itemdb.add(itemdb.DB_MODULE, module_db_data)
-		self.itemdb.add(itemdb.DB_WEAPON, weapon_db_data)
+		self.itemdb.add(self.itemdb.DB_DROPSUIT, dropsuit_db_data)
+		self.itemdb.add(self.itemdb.DB_MODULE, module_db_data)
+		self.itemdb.add(self.itemdb.DB_WEAPON, weapon_db_data)
 
 		expected_dropsuit_values = dropsuit_db_data.values()
 		self.db_cursor.execute('SELECT * FROM dropsuits WHERE id=?', (0,))
