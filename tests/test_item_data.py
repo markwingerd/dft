@@ -35,20 +35,20 @@ class TestItemDatabase(unittest.TestCase):
 		# Test that all the dropsuit columns exist
 		expected_dropsuits = ['id', 'name', 'race', 'meta_level', 
 				'price_isk', 'price_aur']
-		self.db_cursor.execute('select * from dropsuits')
+		self.db_cursor.execute('SELECT * FROM dropsuits')
 		# gets a list of only the column names
 		dropsuits = map(lambda item: item[0], self.db_cursor.description)
 
 		# Test that all the module columns exist
 		expected_modules = ['id', 'name', 'meta_level', 'price_isk',
 				'price_aur', 'slot_type']
-		self.db_cursor.execute('select * from modules')
+		self.db_cursor.execute('SELECT * FROM modules')
 		modules = map(lambda item: item[0], self.db_cursor.description)
 
 		# Test that all the module columns exist
 		expected_weapons = ['id', 'name', 'meta_level', 'price_isk',
 				'price_aur', 'base_damage']
-		self.db_cursor.execute('select * from weapons')
+		self.db_cursor.execute('SELECT * FROM weapons')
 		weapons = map(lambda item: item[0], self.db_cursor.description)
 
 		self.assertItemsEqual(dropsuits, expected_dropsuits)
