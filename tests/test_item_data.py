@@ -102,23 +102,22 @@ class TestItemDatabase(unittest.TestCase):
 		weapon_db_data = {'id': 0, 'name': 'Ban Hammer', 'meta_level': 42,
 				 'price_isk': 36, 'price_aur': 6, 'base_damage': '9999'}
 
-		self.itemdb.c.execute('INSERT INTO dropsuits VALUES (?,?,?,?,?,?)',
-							   dropsuit_db_data.values())
-		self.itemdb.c.execute('INSERT INTO modules VALUES (?,?,?,?,?,?)',
-							   module_db_data.values())
-		self.itemdb.c.execute('INSERT INTO weapons VALUES (?,?,?,?,?,?)',
-							   weapon_db_data.values())
+		# Use ItemDatabase.add_ because its just easier at this point.
+		self.itemdb.add_dropsuit(dropsuit_db_data)
+		self.itemdb.add_module(module_db_data)
+		self.itemdb.add_weapon(weapon_db_data)
 
 		expected_dropsuit_values = dropsuit_db_data.values()
 		expected_module_values = module_db_data.values()
 		expected_weapon_values = weapon_db_data.values()
-		dropsuit_values = self.itemdb.get_dropsuit(id=0)
-		module_values = self.itemdb.get_module(id=0)
-		weapon_values = self.itemdb.get_weapon(id=0)
+		# Below are the methods that are being tested.
+		dropsuit_values = self.itemdb.get_dropsuit(0)
+		module_values = self.itemdb.get_module(0)
+		weapon_values = self.itemdb.get_weapon(0)
 
 		self.assertItemsEqual(dropsuit_values, expected_dropsuit_values)
 		self.assertItemsEqual(module_values, expected_module_values)
-		self.assertItemsEqual(weapon_values, expected_weapon_values)	
+		self.assertItemsEqual(weapon_values, expected_weapon_values)
 
 
 if __name__ == '__main__':
