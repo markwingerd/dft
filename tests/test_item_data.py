@@ -18,11 +18,15 @@ class TestItemDatabase(unittest.TestCase):
 	""" Tests the ItemDatabase class """
 
 	def setUp(self):
-		# Reloads the test database files. THIS SHOULD BE DONE FIRST.
-		os.remove('./test_items.db')
-		self.itemdb = ItemDatabase('test_items.db')
+		#THIS SHOULD BE DONE FIRST.
+		self.reload_database()
 
 		self.db_cursor = sqlite3.connect('test_items.db').cursor()
+
+	def reload_database(self):
+		""" Deletes and recreates the database. Used by various methods. """
+		os.remove('./test_items.db')
+		self.itemdb = ItemDatabase('test_items.db')
 
 	def test_initialization(self):
 		""" Tests that the initialization works properly. 
