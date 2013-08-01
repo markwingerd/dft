@@ -52,29 +52,34 @@ class TestItemDatabase(unittest.TestCase):
 		self.assertItemsEqual(weapons, expected_weapons)
 
 	def test_add_item(self):
-		""" Tests that items can be added to tables. """
+		""" Tests that items can be added to tables. (Tests the 3 .add_
+			methods.
+		"""
 		dropsuit_db_data = {'id': 0, 'name': 'God Suit', 'race': 'Jove', 
 				'meta_level': 42, 'price_isk': 60000, 'price_aur': 600}
 		module_db_data = {'id': 0, 'name': 'Duct Tape', 'meta_level': 42,
 				 'price_isk': 5500, 'price_aur': 60, 'slot_type': 'Hi Slot'}
 		weapon_db_data = {'id': 0, 'name': 'Ban Hammer', 'meta_level': 42,
-				 'price_isk': 36, 'price_aur': 6, 'base_damage': 9999}
+				 'price_isk': 36, 'price_aur': 6, 'base_damage': '9999'}
 
-		self.itemdb.add(self.itemdb.DB_DROPSUIT, dropsuit_db_data)
-		self.itemdb.add(self.itemdb.DB_MODULE, module_db_data)
-		self.itemdb.add(self.itemdb.DB_WEAPON, weapon_db_data)
+		self.itemdb.add_dropsuit(dropsuit_db_data)
+		self.itemdb.add_module(module_db_data)
+		self.itemdb.add_weapon(weapon_db_data)
 
 		expected_dropsuit_values = dropsuit_db_data.values()
 		self.db_cursor.execute('SELECT * FROM dropsuits WHERE id=?', (0,))
-		dropsuit_values = self.db_cursor.fetchone()
+		self.itemdb.c.execute('SELECT * FROM dropsuits WHERE id=?', (0,))# Must use itemdb's cursor
+		dropsuit_values = self.itemdb.c.fetchone()
 
 		expected_module_values = module_db_data.values()
 		self.db_cursor.execute('SELECT * FROM modules WHERE id=?', (0,))
-		module_values = self.db_cursor.fetchone()
+		self.itemdb.c.execute('SELECT * FROM modules WHERE id=?', (0,))# Must use itemdb's cursor
+		module_values = self.itemdb.c.fetchone()
 
 		expected_weapon_values = weapon_db_data.values()
 		self.db_cursor.execute('SELECT * FROM weapons WHERE id=?', (0,))
-		weapon_values = self.db_cursor.fetchone()
+		self.itemdb.c.execute('SELECT * FROM weapons WHERE id=?', (0,))# Must use itemdb's cursor
+		weapon_values = self.itemdb.c.fetchone() 
 
 		self.assertItemsEqual(dropsuit_values, expected_dropsuit_values)
 		self.assertItemsEqual(module_values, expected_module_values)
