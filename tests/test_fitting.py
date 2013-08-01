@@ -2,7 +2,10 @@
 #coding:utf-8
 
 # Tests for the fitting module
+import sys
 import unittest
+# My path to the project. You may need to change this.
+sys.path.append("/home/reimus/workspace/dft/")
 
 from fitting import (
 	Fitting
