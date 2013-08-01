@@ -11,6 +11,18 @@ PARAMSTYLE = 'qmark'
 
 
 class ItemDatabase():
+	DROPSUIT = 'dropsuits'
+	MODULE = 'modules'
+	WEAPON = 'weapons'
+	SEL_COLUMNS = {DROPSUIT: 'SELECT * FROM dropsuits',
+				   MODULE: 'SELECT * FROM modules',
+				   WEAPON: 'SELECT * FROM weapons'}
+	INS_TEXT = {DROPSUIT: 'INSERT INTO dropsuits VALUES (?,?,?,?,?,?)',
+			    MODULE: 'INSERT INTO modules VALUES (?,?,?,?,?,?)',
+				WEAPON: 'INSERT INTO weapons VALUES (?,?,?,?,?,?)'}
+	SEL_TEXT = {DROPSUIT: 'SELECT * FROM dropsuits WHERE id=?',
+				MODULE: 'SELECT * FROM modules WHERE id=?',
+				WEAPON: 'SELECT * FROM weapons WHERE id=?'}
 
 	def __init__(self, database_file='items.db'):
 
@@ -26,49 +38,19 @@ class ItemDatabase():
 		except sqlite3.OperationalError as e:
 			print e
 
-	def add_dropsuit(self, attrib_dict):
+	def add(self, table_id, attrib_dict):
 		# Get the order of the table columns
-		self.c.execute('SELECT * FROM dropsuits')
+		self.c.execute(ItemDatabase.SEL_COLUMNS[table_id])
 		columns = map(lambda item: item[0], self.c.description)
 		# Create a list of attrib_dict values in the correct order.
 		item_values = []
 		for key in columns:
 			item_values.append(attrib_dict[key])
 
-		self.c.execute('INSERT INTO dropsuits VALUES (?,?,?,?,?,?)', item_values)
+		self.c.execute(self.INS_TEXT[table_id], item_values)
 
-	def add_module(self, attrib_dict):
-		# Get the order of the table columns
-		self.c.execute('SELECT * FROM modules')
-		columns = map(lambda item: item[0], self.c.description)
-		# Create a list of attrib_dict values in the correct order.
-		item_values = []
-		for key in columns:
-			item_values.append(attrib_dict[key])
-
-		self.c.execute('INSERT INTO modules VALUES (?,?,?,?,?,?)', item_values)
-
-	def add_weapon(self, attrib_dict):
-		# Get the order of the table columns
-		self.c.execute('SELECT * FROM weapons')
-		columns = map(lambda item: item[0], self.c.description)
-		# Create a list of attrib_dict values in the correct order.
-		item_values = []
-		for key in columns:
-			item_values.append(attrib_dict[key])
-
-		self.c.execute('INSERT INTO weapons VALUES (?,?,?,?,?,?)', item_values)
-
-	def get_dropsuit(self, value):
-		self.c.execute('SELECT * FROM dropsuits WHERE id=?', (value, ))
-		return self.c.fetchone()
-
-	def get_module(self, value):
-		self.c.execute('SELECT * FROM modules WHERE id=?', (value, ))
-		return self.c.fetchone()
-
-	def get_weapon(self, value):
-		self.c.execute('SELECT * FROM weapons WHERE id=?', (value, ))
+	def get(self, table_id, value):
+		self.c.execute(ItemDatabase.SEL_TEXT[table_id], (value, ))
 		return self.c.fetchone()
 
 
