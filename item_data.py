@@ -59,5 +59,18 @@ class ItemDatabase():
 
 		self.c.execute('INSERT INTO weapons VALUES (?,?,?,?,?,?)', item_values)
 
+	def get_dropsuit(self, value):
+		self.c.execute('SELECT * FROM dropsuits WHERE id=?', (value, ))
+		return self.c.fetchone()
+
+	def get_module(self, value):
+		self.c.execute('SELECT * FROM modules WHERE id=?', (value, ))
+		return self.c.fetchone()
+
+	def get_weapon(self, value):
+		self.c.execute('SELECT * FROM weapons WHERE id=?', (value, ))
+		return self.c.fetchone()
+
+
 if __name__ == '__main__':
 	itemdb = ItemDatabase()
