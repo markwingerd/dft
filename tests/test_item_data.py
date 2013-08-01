@@ -89,6 +89,37 @@ class TestItemDatabase(unittest.TestCase):
 		self.assertItemsEqual(module_values, expected_module_values)
 		self.assertItemsEqual(weapon_values, expected_weapon_values)
 
+	def test_get_item(self):
+		""" Tests that you can get items from tables. (Tests the 3 .get_
+			methods.)
+		"""
+		self.reload_database()
+
+		dropsuit_db_data = {'id': 0, 'name': 'God Suit', 'race': 'Jove', 
+				'meta_level': 42, 'price_isk': 60000, 'price_aur': 600}
+		module_db_data = {'id': 0, 'name': 'Duct Tape', 'meta_level': 42,
+				 'price_isk': 5500, 'price_aur': 60, 'slot_type': 'Hi Slot'}
+		weapon_db_data = {'id': 0, 'name': 'Ban Hammer', 'meta_level': 42,
+				 'price_isk': 36, 'price_aur': 6, 'base_damage': '9999'}
+
+		self.itemdb.c.execute('INSERT INTO dropsuits VALUES (?,?,?,?,?,?)',
+							   dropsuit_db_data.values())
+		self.itemdb.c.execute('INSERT INTO modules VALUES (?,?,?,?,?,?)',
+							   module_db_data.values())
+		self.itemdb.c.execute('INSERT INTO weapons VALUES (?,?,?,?,?,?)',
+							   weapon_db_data.values())
+
+		expected_dropsuit_values = dropsuit_db_data.values()
+		expected_module_values = module_db_data.values()
+		expected_weapon_values = weapon_db_data.values()
+		dropsuit_values = self.itemdb.get_dropsuit(id=0)
+		module_values = self.itemdb.get_module(id=0)
+		weapon_values = self.itemdb.get_weapon(id=0)
+
+		self.assertItemsEqual(dropsuit_values, expected_dropsuit_values)
+		self.assertItemsEqual(module_values, expected_module_values)
+		self.assertItemsEqual(weapon_values, expected_weapon_values)	
+
 
 if __name__ == '__main__':
     unittest.main()
