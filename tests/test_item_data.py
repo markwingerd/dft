@@ -119,6 +119,23 @@ class TestItemDatabase(unittest.TestCase):
 		self.assertItemsEqual(module_values, expected_module_values)
 		self.assertItemsEqual(weapon_values, expected_weapon_values)
 
+	def test_get_columns(self):
+		""" Tests that you can retreive the names of the columns. """
+		expected_dropsuit_values = ['id', 'name', 'race', 'meta_level',
+									'price_isk', 'price_aur']
+		expected_module_values = ['id', 'name', 'meta_level', 'price_isk',
+								  'price_aur', 'slot_type']
+		expected_weapon_values = ['id', 'name', 'meta_level', 'price_isk',
+								  'price_aur', 'base_damage']
+
+		dropsuit_values = self.itemdb.get_columns(self.itemdb.DROPSUIT)
+		module_values = self.itemdb.get_columns(self.itemdb.MODULE)
+		weapon_values = self.itemdb.get_columns(self.itemdb.WEAPON)
+
+		self.assertItemsEqual(dropsuit_values, expected_dropsuit_values)
+		self.assertItemsEqual(module_values, expected_module_values)
+		self.assertItemsEqual(weapon_values, expected_weapon_values)
+
 
 if __name__ == '__main__':
     unittest.main()

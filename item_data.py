@@ -39,9 +39,7 @@ class ItemDatabase():
 			print e
 
 	def add(self, table_id, attrib_dict):
-		# Get the order of the table columns
-		self.c.execute(ItemDatabase.SEL_COLUMNS[table_id])
-		columns = map(lambda item: item[0], self.c.description)
+		columns = self.get_columns(table_id)
 		# Create a list of attrib_dict values in the correct order.
 		item_values = []
 		for key in columns:
@@ -52,6 +50,11 @@ class ItemDatabase():
 	def get(self, table_id, value):
 		self.c.execute(ItemDatabase.SEL_TEXT[table_id], (value, ))
 		return self.c.fetchone()
+
+	def get_columns(self, table_id):
+		# Get a list of the columns in the right order
+		self.c.execute(ItemDatabase.SEL_COLUMNS[table_id])
+		return map(lambda item: item[0], self.c.description)
 
 
 if __name__ == '__main__':
